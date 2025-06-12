@@ -17,7 +17,13 @@ class TiposDeDomiciliosResource extends Resource
 {
     protected static ?string $model = TiposDeDomicilios::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+        protected static ?string $modelLabel = 'tipo de domicilio';
+        protected static ?string $pluralModelLabel = 'tipos de domicilios';
+        protected static ?string $navigationGroup = 'Datos';
+        protected static ?int $navigationSort = 1;
+        protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     public static function form(Form $form): Form
     {
