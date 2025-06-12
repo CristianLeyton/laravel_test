@@ -20,5 +20,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@mail.com',
             'password' => bcrypt('admin'),
         ]);
+
+        $this->call(LocalidadesSeeder::class);
+        $this->call(NivelesDeFaltaSeeder::class);
     }
 }
