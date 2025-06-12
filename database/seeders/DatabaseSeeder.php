@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
            'password' => bcrypt('admin'),
         ]);
 
-     /*    $this->call(LocalidadesSeeder::class);
-        $this->call(NivelesDeFaltaSeeder::class); */
+     /*    $this->call(LocalidadesSeeder::class);*/
+        $this->call(NivelesDeFaltaSeeder::class); 
 }
 }
