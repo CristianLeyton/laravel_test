@@ -15,9 +15,9 @@ class NivelesDeFaltaSeeder extends Seeder
     {
         //
         $niveles = [
-    ['nombre_de_nivel' => 'Baja'],
+    ['nombre_de_nivel' => 'Leve'],
     ['nombre_de_nivel' => 'Media'],
-    ['nombre_de_nivel' => 'Alta'],
+    ['nombre_de_nivel' => 'Grave'],
         ];
         foreach ($niveles as $nivel) {
             NivelesDeFaltas::create($nivel);

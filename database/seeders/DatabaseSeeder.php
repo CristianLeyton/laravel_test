@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(LocalidadesSeeder::class);
         $this->call(NivelesDeFaltaSeeder::class);
+        $this->call(EstadosSeeder::class);
+        $this->call(AniodelacarreraSeeder::class);
     }
 }
