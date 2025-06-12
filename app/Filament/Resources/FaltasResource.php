@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Gate;
 
 
 class FaltasResource extends Resource
@@ -26,10 +27,11 @@ class FaltasResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre_de_falta')
                 ->required(),
-                Forms\Components\Select::make('niveles_de_falta_id')
-                ->relationship('niveles_de_falta','nombre_de_nivel')
-                ->required(),
-            ]);
+            Forms\Components\Select::make('niveles_de_faltas_id')
+                ->relationship('nivelesDeFaltas', 'nombre_de_nivel')
+                ->required()
+                ->preload(),
+                ]);
     }
 
     public static function table(Table $table): Table
