@@ -13,8 +13,4 @@ class NivelesDeFaltas extends Model
         return $this->hasMany(Faltas::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-    }
 }

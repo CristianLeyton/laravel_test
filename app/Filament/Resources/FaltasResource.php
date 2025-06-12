@@ -27,7 +27,7 @@ class FaltasResource extends Resource
                 Forms\Components\TextInput::make('nombre_de_falta')
                 ->required(),
                 Forms\Components\Select::make('niveles_de_falta_id')
-                ->relationship('niveles_de_falta','nombre_de_nivel')
+                ->relationship('nivelesDefaltas','nombre_de_nivel')
                 ->required(),
             ]);
     }

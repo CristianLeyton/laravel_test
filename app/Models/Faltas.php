@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Faltas extends Model
 {
     //
-    public function nivelesdefaltas(): BelongsTo
+    public function nivelesDefaltas(): BelongsTo
     {
         return $this->belongsTo(NivelesDeFaltas::class);
     }
