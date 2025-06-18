@@ -17,7 +17,11 @@ class NivelesDeFaltasResource extends Resource
 {
     protected static ?string $model = NivelesDeFaltas::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+           protected static ?string $modelLabel = 'nivel de falta';
+        protected static ?string $pluralModelLabel = 'niveles de falta';
+        protected static ?string $navigationGroup = 'Tablas de datos';
+        protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
+        //protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

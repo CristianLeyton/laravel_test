@@ -19,7 +19,11 @@ class FaltasResource extends Resource
 {
     protected static ?string $model = Faltas::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+            protected static ?string $modelLabel = 'falta';
+        protected static ?string $pluralModelLabel = 'faltas';
+        protected static ?string $navigationGroup = 'Tablas de datos';
+        protected static ?string $navigationIcon = 'heroicon-o-shield-exclamation';
+        //protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -29,6 +33,7 @@ class FaltasResource extends Resource
                 ->required(),
             Forms\Components\Select::make('niveles_de_faltas_id')
                 ->relationship('nivelesDeFaltas', 'nombre_de_nivel')
+                ->label('Nivel de falta')
                 ->required()
                 ->preload(),
                 ]);
@@ -40,8 +45,9 @@ class FaltasResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre_de_falta')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('niveles_de_falta_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('nivelesDeFaltas.nombre_de_nivel')
+                ->label('Nivel de falta')
+                ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

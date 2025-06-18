@@ -17,7 +17,11 @@ class EstadosResource extends Resource
 {
     protected static ?string $model = Estados::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+        protected static ?string $modelLabel = 'estado';
+        protected static ?string $pluralModelLabel = 'estados';
+        protected static ?string $navigationGroup = 'Tablas de datos';
+        protected static ?string $navigationIcon = 'heroicon-o-information-circle';
+
 
     public static function form(Form $form): Form
     {

@@ -17,20 +17,40 @@ class ArrestosResource extends Resource
 {
     protected static ?string $model = Arrestos::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $modelLabel = 'arresto';
+    protected static ?string $pluralModelLabel = 'arrestos';
+/*     protected static ?string $navigationGroup = 'Tablas de datos'; */
+    protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
+    //protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('estudiante_id')
+                    ->label('Estudiante')
+                    ->relationship('estudiante', 'nombre_estudiante', function ($query) {
+                        return $query->select('id', 'nombre_estudiante', 'apellido_estudiante')
+                            ->orderBy('nombre_estudiante');
+                    })
+                    ->getOptionLabelFromRecordUsing(fn($record) => $record->nombre_estudiante . ' ' . $record->apellido_estudiante)
+                    ->required()
+                    ->searchable()
+                    ->preload(),
+
                 Forms\Components\DatePicker::make('fecha_de_arresto')
+                    ->label('Fecha de Arresto')
                     ->default(now()->format('Y-m-d'))
                     ->required(),
+
                 Forms\Components\TextInput::make('dias_de_arresto')
+                    ->label('Días de Arresto')
                     ->required()
-                    ->numeric(),
-                Forms\Components\Select::make('colors')
-                    ->label('Faltas: ')
+                    ->numeric()
+                    ->minValue(1),
+
+                Forms\Components\Select::make('faltas')
+                    ->label('Faltas')
                     ->relationship('faltas', 'nombre_de_falta')
                     ->multiple()
                     ->preload()
@@ -53,20 +73,35 @@ class ArrestosResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('estudiante.nombre_estudiante')
+                    ->label('Estudiante')
+                    ->formatStateUsing(fn($record) => $record->estudiante->nombre_estudiante . ' ' . $record->estudiante->apellido_estudiante)
+                    ->searchable()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('fecha_de_arresto')
-                    ->searchable(),
+                    ->label('Fecha de Arresto')
+                    ->date()
+                    ->searchable()
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('dias_de_arresto')
+                    ->label('Días')
                     ->numeric()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('faltas.nombre_de_falta')
+                    ->label('Faltas')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('faltas.nivelesDeFaltas.nombre_de_nivel')
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

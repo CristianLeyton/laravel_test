@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('arrestos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('estudiante_id')->constrained('estudiantes')->cascadeOnDelete(); 
             $table->string('fecha_de_arresto');
             $table->integer('dias_de_arresto');
             $table->timestamps();

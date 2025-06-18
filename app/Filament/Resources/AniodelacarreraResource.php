@@ -17,11 +17,11 @@ class AniodelacarreraResource extends Resource
 {
     protected static ?string $model = Aniodelacarrera::class;
 
-        protected static ?string $modelLabel = 'Año de tecmicatura';
-        protected static ?string $pluralModelLabel = 'Años de tecnicatura';
-        protected static ?string $navigationGroup = 'Datos';
-        protected static ?int $navigationSort = 2;
+        protected static ?string $modelLabel = 'año de tecnicatura';
+        protected static ?string $pluralModelLabel = 'años de tecnicatura';
+        protected static ?string $navigationGroup = 'Tablas de datos';
         protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+        //protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {

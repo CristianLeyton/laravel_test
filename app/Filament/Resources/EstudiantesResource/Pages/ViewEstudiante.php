@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Filament\Resources\EstudiantesResource\Pages;
+
+use App\Filament\Resources\EstudiantesResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ViewRecord;
+use Filament\Infolists\Infolist;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\Grid;
+
+class ViewEstudiante extends ViewRecord
+{
+    protected static string $resource = EstudiantesResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\EditAction::make(),
+        ];
+    }
+
+    public function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Información Personal')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextEntry::make('nombre_estudiante')
+                                ->label('Nombre'),
+                            TextEntry::make('apellido_estudiante')
+                                ->label('Apellido'),
+                            TextEntry::make('dni_estudiante')
+                                ->label('DNI'),
+                            TextEntry::make('cuil_estudiante')
+                                ->label('CUIL'),
+                            TextEntry::make('fecha_nacimiento')
+                                ->label('Fecha de Nacimiento')
+                                ->date(),
+                            TextEntry::make('num_legajo')
+                                ->label('Número de Legajo'),
+                        ]),
+                        ImageEntry::make('foto_estudiante')
+                            ->label('Foto')
+                            ->circular()
+                            ->visible(fn($record) => $record->foto_estudiante),
+                    ]),
+
+                Section::make('Información Académica')
+                    ->schema([
+                        Grid::make(2)->schema([
+                            TextEntry::make('aniodelacarrera.nombre')
+                                ->label('Año de la Carrera'),
+                            TextEntry::make('estado.nombre_estado')
+                                ->label('Estado'),
+                        ]),
+                    ]),
+
+                Section::make('Resoluciones')
+                    ->schema([
+                        RepeatableEntry::make('resoluciones')
+                            ->schema([
+                                TextEntry::make('numero_de_resolucion')
+                                    ->label('Número de Resolución'),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->collapsible(),
+
+                Section::make('Domicilios')
+                    ->schema([
+                        RepeatableEntry::make('domicilios')
+                            ->schema([
+                                Grid::make(2)->schema([
+                                    TextEntry::make('tipoDeDomicilio.nombre_tipo_domicilio')
+                                        ->label('Tipo'),
+                                    TextEntry::make('localidad.nombre_localidad')
+                                        ->label('Localidad'),
+                                    TextEntry::make('direccion_estudiante')
+                                        ->label('Dirección')
+                                        ->columnSpan(2),
+                                    TextEntry::make('descripcion_domicilio')
+                                        ->label('Descripción')
+                                        ->columnSpan(2),
+                                ]),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->collapsible(),
+
+                Section::make('Arrestos')
+                    ->schema([
+                        RepeatableEntry::make('arrestos')
+                            ->schema([
+                                Grid::make(3)->schema([
+                                    TextEntry::make('fecha_de_arresto')
+                                        ->label('Fecha')
+                                        ->date(),
+                                    TextEntry::make('dias_de_arresto')
+                                        ->label('Días'),
+                                    TextEntry::make('created_at')
+                                        ->label('Fecha de Registro')
+                                        ->dateTime(),
+                                ]),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->collapsible(),
+            ]);
+    }
+}
