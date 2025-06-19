@@ -20,8 +20,8 @@ return new class extends Migration
             $table->date('fecha_nacimiento');
             $table->string('num_legajo');
             $table->string('foto_estudiante')->nullable();
-            $table->foreignId('aniodelacarrera_id')->constrained('aniodelacarreras')->cascadeOnDelete();
-            $table->foreignId('estado_id')->constrained('estados')->cascadeOnDelete();
+            $table->foreignId('aniodelacarrera_id')->constrained('aniodelacarreras')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('estado_id')->constrained('estados')->cascadeOnUpdate()->restrictOnDelete();
 
             $table->timestamps();
         });

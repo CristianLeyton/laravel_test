@@ -18,11 +18,12 @@ class EstudiantesResource extends Resource
 {
     protected static ?string $model = Estudiantes::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-identification';
     protected static ?string $navigationLabel = 'Estudiantes';
-/*     protected static ?string $navigationGroup = 'Administrar';  */
+    protected static ?string $navigationGroup = 'Cadetes';
     protected static ?string $modelLabel = 'Estudiante';
     protected static ?string $pluralModelLabel = 'Estudiantes';
+    protected static ?int $navigationSort = 1;
 
 
     public static function form(Form $form): Form
@@ -58,12 +59,6 @@ class EstudiantesResource extends Resource
                     ->required()
                     ->maxLength(50),
 
-                Forms\Components\FileUpload::make('foto_estudiante')
-                    ->label('Foto')
-                    ->image()
-                    ->directory('estudiantes')
-                    ->nullable(),
-
                 Forms\Components\Select::make('aniodelacarrera_id')
                     ->label('Año de la Carrera')
                     ->relationship('aniodelacarrera', 'nombre')
@@ -78,13 +73,11 @@ class EstudiantesResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                Forms\Components\Select::make('resoluciones')
-                    ->label('Resoluciones')
-                    ->relationship('resoluciones', 'numero_de_resolucion')
-                    ->multiple()
-                    ->required()
-                    ->searchable()
-                    ->preload(),
+                    Forms\Components\FileUpload::make('foto_estudiante')
+                    ->label('Foto')
+                    ->image()
+                    ->directory('estudiantes')
+                    ->nullable(),
 
                 Forms\Components\Repeater::make('domicilios_data')
                     ->label('Domicilios')

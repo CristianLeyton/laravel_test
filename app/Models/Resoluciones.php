@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Resoluciones extends Model
 {
     protected $fillable = [
-        'numero_de_resolucion'
+        'numero_de_resolucion',
+        'foto',
+        'estudiante_id'
     ];
 
-    public function estudiantes(): BelongsToMany
+    public function estudiante(): BelongsTo
     {
-        return $this->belongsToMany(Estudiantes::class, 'estudiante_resolucion');
+        return $this->belongsTo(Estudiantes::class, 'estudiante_id');
     }
 }

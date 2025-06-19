@@ -64,8 +64,25 @@ class ViewEstudiante extends ViewRecord
                     ->schema([
                         RepeatableEntry::make('resoluciones')
                             ->schema([
-                                TextEntry::make('numero_de_resolucion')
-                                    ->label('Número de Resolución'),
+                                Grid::make(2)->schema([
+                                    TextEntry::make('numero_de_resolucion')
+                                        ->label('Número de Resolución'),
+                                    TextEntry::make('created_at')
+                                        ->label('Fecha de Registro')
+                                        ->dateTime(),
+                                ]),
+                                \Filament\Infolists\Components\Actions::make([
+                                    \Filament\Infolists\Components\Actions\Action::make('view_resolucion')
+                                        ->label('Ver Detalles')
+                                        ->icon('heroicon-o-eye')
+                                        ->color('info')
+                                        ->modalHeading('Detalles de la Resolución')
+                                        ->modalContent(function ($record) {
+                                            return view('filament.resources.resoluciones.modal-content', ['resolucion' => $record]);
+                                        })
+                                        ->modalSubmitAction(false)
+                                        ->modalCancelActionLabel('Cerrar'),
+                                ]),
                             ])
                             ->columns(1),
                     ])

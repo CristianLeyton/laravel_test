@@ -13,7 +13,6 @@ class EditEstudiante extends EditRecord
     protected static string $resource = EstudiantesResource::class;
 
     protected array $domiciliosData = [];
-    protected array $resolucionesData = [];
 
     protected function getHeaderActions(): array
     {
@@ -41,9 +40,6 @@ class EditEstudiante extends EditRecord
 
         $data['domicilios_data'] = $domicilios;
 
-        // Solución: especificar la tabla en el pluck para evitar ambigüedad
-        $data['resoluciones'] = $this->record->resoluciones()->pluck('resoluciones.id')->toArray();
-
         return $data;
     }
 
@@ -53,11 +49,6 @@ class EditEstudiante extends EditRecord
         $domicilios = $data['domicilios_data'] ?? [];
         $this->domiciliosData = $domicilios;
         unset($data['domicilios_data']);
-
-        // Extraer los datos de resoluciones del formulario
-        $resoluciones = $data['resoluciones'] ?? [];
-        $this->resolucionesData = $resoluciones;
-        unset($data['resoluciones']);
 
         return $data;
     }
@@ -72,11 +63,6 @@ class EditEstudiante extends EditRecord
             foreach ($this->domiciliosData as $domicilio) {
                 $this->record->domicilios()->create($domicilio);
             }
-        }
-
-        // Sincronizar las resoluciones (eliminar las que no están y agregar las nuevas)
-        if (isset($this->resolucionesData) && is_array($this->resolucionesData)) {
-            $this->record->resoluciones()->sync($this->resolucionesData);
         }
     }
 }

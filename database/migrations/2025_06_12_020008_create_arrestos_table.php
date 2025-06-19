@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('arrestos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('estudiante_id')->constrained('estudiantes')->cascadeOnDelete(); 
+            $table->foreignId('estudiante_id')->constrained('estudiantes')->cascadeOnDelete();
             $table->string('fecha_de_arresto');
             $table->integer('dias_de_arresto');
             $table->timestamps();
         });
 
         Schema::create('arrestos_faltas', function (Blueprint $table) {
-            $table->foreignId('faltas_id')->constrained('faltas')->cascadeOnDelete();
-            $table->foreignId('arrestos_id')->constrained('arrestos')->cascadeOnDelete();
+            $table->foreignId('faltas_id')->constrained('faltas')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('arrestos_id')->constrained('arrestos')->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
         });
     }

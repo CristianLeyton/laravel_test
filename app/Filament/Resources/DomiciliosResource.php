@@ -19,9 +19,9 @@ class DomiciliosResource extends Resource
 
     protected static ?string $modelLabel = 'domicilio';
     protected static ?string $pluralModelLabel = 'domicilios';
-    protected static ?string $navigationGroup = 'Tablas de datos';
+    protected static ?string $navigationGroup = 'Cadetes';
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
-    //protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {

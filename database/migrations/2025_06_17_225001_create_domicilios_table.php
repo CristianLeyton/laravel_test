@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('domicilios', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('estudiantes_id')->nullable();
-            $table->foreignId('tipos_de_domicilios_id')->constrained('tipos_de_domicilios')->cascadeOnDelete();
+            $table->unsignedBigInteger('estudiantes_id');
+            $table->foreign('estudiantes_id')->references('id')->on('estudiantes')->cascadeOnDelete();
+            $table->foreignId('tipos_de_domicilios_id')->constrained('tipos_de_domicilios')->cascadeOnUpdate()->restrictOnDelete();
             $table->string('descripcion_domicilio')->nullable();
             $table->string('direccion_estudiante');
-            $table->foreignId('localidades_id')->constrained('localidades')->cascadeOnDelete();
+            $table->foreignId('localidades_id')->constrained('localidades')->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
         });
     }

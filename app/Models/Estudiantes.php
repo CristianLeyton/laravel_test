@@ -35,9 +35,9 @@ class Estudiantes extends Model
         return $this->belongsTo(Estados::class);
     }
 
-    public function resoluciones(): BelongsToMany
+    public function resoluciones(): HasMany
     {
-        return $this->belongsToMany(Resoluciones::class, 'estudiante_resolucion');
+        return $this->hasMany(Resoluciones::class, 'estudiante_id');
     }
 
     public function domicilios(): HasMany

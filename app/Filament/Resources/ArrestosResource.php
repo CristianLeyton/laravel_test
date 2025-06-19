@@ -17,11 +17,12 @@ class ArrestosResource extends Resource
 {
     protected static ?string $model = Arrestos::class;
 
-    protected static ?string $modelLabel = 'arresto';
-    protected static ?string $pluralModelLabel = 'arrestos';
-/*     protected static ?string $navigationGroup = 'Tablas de datos'; */
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
-    //protected static ?int $navigationSort = 2;
+    protected static ?string $navigationLabel = 'Arrestos';
+    protected static ?string $navigationGroup = 'Cadetes';
+    protected static ?string $modelLabel = 'Arresto';
+    protected static ?string $pluralModelLabel = 'Arrestos';
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
