@@ -36,7 +36,7 @@ class TiposDeDomiciliosResource extends Resource
                             'unique' => 'El nombre debe ser único'
                         ]
                     )
-                    ->unique(),
+                    ->unique(ignoreRecord: true),
             ]);
     }
 
