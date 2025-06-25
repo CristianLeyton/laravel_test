@@ -13,6 +13,6 @@ class Estados extends Model
 
     public function estudiantes(): HasMany
     {
-        return $this->hasMany(Estudiantes::class);
+        return $this->hasMany(Estudiantes::class, 'estado_id');
     }
 }

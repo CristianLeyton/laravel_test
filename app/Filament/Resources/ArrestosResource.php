@@ -37,18 +37,37 @@ class ArrestosResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn($record) => $record->nombre_estudiante . ' ' . $record->apellido_estudiante)
                     ->required()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->validationMessages(
+                        [
+                            'required' => 'El estudiante es requerido',
+                        ]
+                    ),
 
                 Forms\Components\DatePicker::make('fecha_de_arresto')
                     ->label('Fecha de Arresto')
                     ->default(now()->format('Y-m-d'))
-                    ->required(),
+                    ->required()
+                    ->validationMessages(
+                        [
+                            'required' => 'La fecha es requerida',
+                        ]
+                    ),
 
                 Forms\Components\TextInput::make('dias_de_arresto')
                     ->label('Días de Arresto')
                     ->required()
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(1)
+                    ->maxValue(31)
+                    ->validationMessages(
+                        [
+                            'required' => 'Ingrese días de arresto',
+                            'numeric' => 'Ingrese un numero válido',
+                            'min' => 'Ingrese un número mayor o igual a 1',
+                            'max' => 'Ingrese un número menor o igual a 31',
+                        ]
+                    ),
 
                 Forms\Components\Select::make('faltas')
                     ->label('Faltas')
@@ -56,15 +75,26 @@ class ArrestosResource extends Resource
                     ->multiple()
                     ->preload()
                     ->searchable()
+                    ->getOptionLabelFromRecordUsing(fn($record) => $record->nombre_de_falta . ' (' . $record->nivelesDeFaltas->nombre_de_nivel . ')')
                     ->createOptionModalHeading('Crear falta')
                     ->createOptionForm([
                         Forms\Components\Grid::make(2)->schema([
                             Forms\Components\TextInput::make('nombre_de_falta')
-                                ->required(),
+                                ->required()
+                                ->validationMessages(
+                                    [
+                                        'required' => 'El nombre es requerido',
+                                    ]
+                                ),
                             Forms\Components\Select::make('niveles_de_faltas_id')
                                 ->relationship('nivelesDeFaltas', 'nombre_de_nivel')
                                 ->required()
-                                ->preload(),
+                                ->preload()
+                                ->validationMessages(
+                                    [
+                                        'required' => 'El nivel de falta es requerido',
+                                    ]
+                                ),
                         ]),
                     ]),
             ]);

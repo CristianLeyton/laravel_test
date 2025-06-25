@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('faltas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_de_falta')->unique();
+            $table->text('nombre_de_falta')->unique();
             $table->foreignId('niveles_de_faltas_id')->constrained('niveles_de_faltas')->cascadeOnUpdate()->restrictOnDelete();
             $table->timestamps();
         });

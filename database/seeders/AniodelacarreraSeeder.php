@@ -15,7 +15,7 @@ class AniodelacarreraSeeder extends Seeder
     {
         //
         $anios = [
-            ['nombre' => 'Aspirante a cadete'],
+            ['nombre' => 'Cadete de 1º año'],
             ['nombre' => 'Cadete de 2º año'],
             ['nombre' => 'Cadete de 3º año'],
         ];

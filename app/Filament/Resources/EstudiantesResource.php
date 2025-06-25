@@ -33,45 +33,90 @@ class EstudiantesResource extends Resource
                 Forms\Components\TextInput::make('nombre_estudiante')
                     ->label('Nombre')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(100)
+                    ->validationMessages(
+                        [
+                            'required' => 'El nombre es requerido',
+                            'max' => 'El nombre debe tener menos de 100 caracteres',
+                        ]
+                    ),
 
                 Forms\Components\TextInput::make('apellido_estudiante')
                     ->label('Apellido')
                     ->required()
-                    ->maxLength(255),
+                                        ->maxLength(100)
+                    ->validationMessages(
+                        [
+                            'required' => 'El apellido es requerido',
+                            'max' => 'El apellido debe tener menos de 100 caracteres',
+                        ]
+                    ),
 
                 Forms\Components\TextInput::make('dni_estudiante')
                     ->label('DNI')
                     ->required()
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->unique(ignoreRecord: true)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'required' => 'El DNI es requerido',
+                            'max' => 'El DNI debe tener menos de 20 caracteres',
+                            'unique' => 'El DNI ya existe en la base de datos',
+                            'numeric' => 'El DNI debe ser numérico',
+                        ]
+                    ),
 
                 Forms\Components\TextInput::make('cuil_estudiante')
                     ->label('CUIL')
-                    ->required()
-                    ->maxLength(20),
+                    ->maxLength(20)
+                    ->unique(ignoreRecord: true)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'max' => 'El CUIL debe tener menos de 20 caracteres',
+                            'unique' => 'El CUIL ya existe en la base de datos',
+                            'numeric' => 'El CUIL debe ser numérico',
+                        ]
+                    ),
 
                 Forms\Components\DatePicker::make('fecha_nacimiento')
-                    ->label('Fecha de Nacimiento')
-                    ->required(),
+                    ->label('Fecha de Nacimiento'),
 
                 Forms\Components\TextInput::make('num_legajo')
                     ->label('Número de Legajo')
-                    ->required()
-                    ->maxLength(50),
+                    ->maxLength(50)
+                    ->validationMessages(
+                        [
+                            'max' => 'El número de legajo debe tener menos de 50 caracteres',
+                        ]
+                    ),
 
                 Forms\Components\Select::make('aniodelacarrera_id')
                     ->label('Año de la Carrera')
                     ->relationship('aniodelacarrera', 'nombre')
                     ->required()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->default(1)
+                    ->validationMessages(
+                        [
+                            'required' => 'El año de la carrera es requerido',
+                        ]
+                    ),
 
                 Forms\Components\Select::make('estado_id')
                     ->label('Estado')
                     ->relationship('estado', 'nombre_estado')
                     ->required()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                    ->default(1)
+                    ->validationMessages(
+                        [
+                            'required' => 'El estado es requerido',
+                        ]
+                    ),
 
                     Forms\Components\FileUpload::make('foto_estudiante')
                     ->label('Foto')
@@ -79,27 +124,54 @@ class EstudiantesResource extends Resource
                     ->directory('estudiantes')
                     ->nullable(),
 
+                    Forms\Components\Textarea::make('observaciones')
+                            ->label('Observaciones')
+                            ->nullable()
+                            ->maxLength(500)
+                            ->validationMessages(
+                                [
+                                    'max' => 'La observacion debe tener menos de 500 caracteres',
+                                ]
+                            ),
+
                 Forms\Components\Repeater::make('domicilios_data')
                     ->label('Domicilios')
                     ->schema([
                         Forms\Components\Select::make('tipos_de_domicilios_id')
                             ->label('Tipo de Domicilio')
+                            ->default(1)
                             ->options(function () {
                                 return \App\Models\TiposDeDomicilios::pluck('nombre_tipo_domicilio', 'id');
                             })
                             ->required()
-                            ->searchable(),
+                            ->searchable()
+                            ->validationMessages(
+                                [
+                                    'required' => 'El tipo de domicilio es requerido',
+                                ]
+                            ),
 
                         Forms\Components\TextInput::make('direccion_estudiante')
                             ->label('Dirección')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->validationMessages(
+                                [
+                                    'required' => 'La dirección es requerida',
+                                    'max' => 'La dirección debe tener menos de 255 caracteres',
+                                ]
+                            ),
 
                         Forms\Components\Textarea::make('descripcion_domicilio')
                             ->label('Descripción')
                             ->nullable()
                             ->maxLength(500)
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->validationMessages(
+                                [
+                                    'max' => 'La descripción debe tener menos de 500 caracteres',
+                                ]
+                            ),
 
                         Forms\Components\Select::make('localidades_id')
                             ->label('Localidad')
@@ -107,7 +179,12 @@ class EstudiantesResource extends Resource
                                 return \App\Models\Localidades::pluck('nombre_localidad', 'id');
                             })
                             ->required()
-                            ->searchable(),
+                            ->searchable()
+                            ->validationMessages(
+                                [
+                                    'required' => 'La localidad es requerida',
+                                ]
+                            ),
                     ])
                     ->defaultItems(1)
                     ->columns(2)

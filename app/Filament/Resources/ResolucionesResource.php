@@ -58,15 +58,15 @@ class ResolucionesResource extends Resource
                     })
                     ->required()
                     ->validationMessages([
-                        'required' => 'Seleccione un estudiante.'
+                        'required' => 'Seleccione un estudiante'
                     ]),
                 Forms\Components\TextInput::make('numero_de_resolucion')
                     ->label('Número de resolución')
                     ->unique(ignoreRecord: true)
                     ->required()
                     ->validationMessages([
-                        'unique' => 'Ya existe una resolucion con este número.',
-                        'required' => 'Indique número de resolución.'
+                        'unique' => 'Ya existe una resolucion con este número',
+                        'required' => 'Indique número de resolución'
                     ]),
                 Forms\Components\FileUpload::make('foto')
                     ->label('Foto de la resolución')
@@ -74,7 +74,7 @@ class ResolucionesResource extends Resource
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
                     ->directory('resoluciones')
                     ->validationMessages([
-                        'mimetypes' => 'El archivo debe ser una imagen válida (JPG, PNG, GIF, WebP).'
+                        'mimetypes' => 'El archivo debe ser una imagen válida (JPG, PNG, GIF, WebP)'
                     ]),
             ]);
     }

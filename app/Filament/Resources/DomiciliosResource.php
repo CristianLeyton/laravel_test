@@ -32,21 +32,51 @@ class DomiciliosResource extends Resource
                     ->label('Estudiante')
                     ->searchable()
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->validationMessages(
+                        [
+                            'required' => 'El estudiante es requerido',
+                        ]
+                    ),
                 Forms\Components\Select::make('tipos_de_domicilios_id')
                     ->relationship('tiposDeDomicilios', 'nombre_tipo_domicilio')
                     ->label('Tipo de domicilio')
-                    ->required(),
+                    ->required()
+                    ->default(1)
+                    ->preload()
+                    ->validationMessages(
+                        [
+                            'required' => 'El estudiante es requerido',
+                        ]
+                    ),
                 Forms\Components\TextInput::make('descripcion_domicilio')
                     ->label('Descripción')
-                    ->default('Casa'),
+                    ->default('Casa')
+                    ->maxLength(255)
+                    ->validationMessages(
+                        [
+                            'max' => 'La dirección debe tener menos de 255 caracteres',
+                        ]
+                    ),
                 Forms\Components\TextInput::make('direccion_estudiante')
                     ->label('Dirección')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->validationMessages(
+                        [
+                            'required' => 'La dirección es requerida',
+                            'max' => 'La dirección debe tener menos de 255 caracteres',
+                        ]
+                    ),
                 Forms\Components\Select::make('localidades_id')
                     ->label('Localidad')
                     ->relationship('localidades', 'nombre_localidad')
-                    ->required(),
+                    ->required()
+                    ->validationMessages(
+                        [
+                            'required' => 'La localidad es requerida',
+                        ]
+                    ),
             ]);
     }
 

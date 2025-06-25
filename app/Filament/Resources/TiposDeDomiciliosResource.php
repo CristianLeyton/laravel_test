@@ -31,12 +31,15 @@ class TiposDeDomiciliosResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre_tipo_domicilio')
                     ->required()
+                    ->maxLength(100)
+                    ->unique(ignoreRecord: true)
                     ->validationMessages(
                         [
-                            'unique' => 'El nombre debe ser único'
+                            'unique' => 'El nombre debe ser único',
+                            'max' => 'El nombre debe tener menos de 100 caracteres',
+                            'required' => 'El nombre es requerido',
                         ]
-                    )
-                    ->unique(ignoreRecord: true),
+                    ),
             ]);
     }
 

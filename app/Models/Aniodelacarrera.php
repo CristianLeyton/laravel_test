@@ -15,6 +15,6 @@ class Aniodelacarrera extends Model
 
     public function estudiantes(): HasMany
     {
-        return $this->hasMany(Estudiantes::class);
+        return $this->hasMany(Estudiantes::class, 'aniodelacarrera_id');
     }
 }

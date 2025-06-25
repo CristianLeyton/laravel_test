@@ -18,7 +18,8 @@ class Estudiantes extends Model
         'num_legajo',
         'foto_estudiante',
         'aniodelacarrera_id',
-        'estado_id'
+        'estado_id',
+        'observaciones'
     ];
 
     protected $casts = [

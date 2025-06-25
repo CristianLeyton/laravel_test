@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('nombre_estudiante');
             $table->string('apellido_estudiante');
             $table->string('dni_estudiante');
-            $table->string('cuil_estudiante');
-            $table->date('fecha_nacimiento');
-            $table->string('num_legajo');
+            $table->string('cuil_estudiante')->nullable();
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('num_legajo')->nullable();
             $table->string('foto_estudiante')->nullable();
             $table->foreignId('aniodelacarrera_id')->constrained('aniodelacarreras')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignId('estado_id')->constrained('estados')->cascadeOnUpdate()->restrictOnDelete();
+            $table->text('observaciones')->nullable();
 
             $table->timestamps();
         });
