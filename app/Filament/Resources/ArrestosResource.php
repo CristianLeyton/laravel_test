@@ -121,9 +121,10 @@ class ArrestosResource extends Resource
                     ->numeric()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('faltas.nombre_de_falta')
+                Tables\Columns\TextColumn::make('faltas.nivelesDeFaltas.nombre_de_nivel')
                     ->label('Faltas')
-                    ->searchable(),
+                    ->searchable()
+                    ->listWithLineBreaks(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')
@@ -141,6 +142,16 @@ class ArrestosResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('view')
+                    ->label('Ver')
+                    ->icon('heroicon-o-eye')
+                    ->color('info')
+                    ->modalHeading('Detalles del Arresto')
+                    ->modalContent(function ($record) {
+                        return view('filament.resources.arrestos.modal-content', ['arresto' => $record]);
+                    })
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Cerrar'),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

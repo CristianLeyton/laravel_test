@@ -67,6 +67,25 @@ class ViewEstudiante extends ViewRecord
                         ]),
                     ]),
 
+                Section::make('Domicilios')
+                    ->schema([
+                        RepeatableEntry::make('domicilios')
+                            ->schema([
+                                Grid::make(2)->schema([
+                                    TextEntry::make('tipoDeDomicilio.nombre_tipo_domicilio')
+                                        ->label('Tipo'),
+                                        TextEntry::make('descripcion_domicilio')
+                                            ->label('Descripción'),
+                                            TextEntry::make('direccion_estudiante')
+                                                ->label('Dirección'),
+                                    TextEntry::make('localidad.nombre_localidad')
+                                        ->label('Localidad'),
+                                ]),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->collapsible(),
+
                 Section::make('Resoluciones')
                     ->schema([
                         RepeatableEntry::make('resoluciones')
@@ -95,24 +114,6 @@ class ViewEstudiante extends ViewRecord
                     ])
                     ->collapsible(),
 
-                Section::make('Domicilios')
-                    ->schema([
-                        RepeatableEntry::make('domicilios')
-                            ->schema([
-                                Grid::make(2)->schema([
-                                    TextEntry::make('tipoDeDomicilio.nombre_tipo_domicilio')
-                                        ->label('Tipo'),
-                                        TextEntry::make('descripcion_domicilio')
-                                            ->label('Descripción'),
-                                            TextEntry::make('direccion_estudiante')
-                                                ->label('Dirección'),
-                                    TextEntry::make('localidad.nombre_localidad')
-                                        ->label('Localidad'),
-                                ]),
-                            ])
-                            ->columns(1),
-                    ])
-                    ->collapsible(),
 
                 Section::make('Arrestos')
                     ->schema([
@@ -127,6 +128,18 @@ class ViewEstudiante extends ViewRecord
                                     TextEntry::make('created_at')
                                         ->label('Fecha de Registro')
                                         ->dateTime(),
+                                ]),
+                                \Filament\Infolists\Components\Actions::make([
+                                    \Filament\Infolists\Components\Actions\Action::make('view_arresto')
+                                        ->label('Ver Detalles')
+                                        ->icon('heroicon-o-eye')
+                                        ->color('info')
+                                        ->modalHeading('Detalles del Arresto')
+                                        ->modalContent(function ($record) {
+                                            return view('filament.resources.arrestos.modal-content', ['arresto' => $record]);
+                                        })
+                                        ->modalSubmitAction(false)
+                                        ->modalCancelActionLabel('Cerrar'),
                                 ]),
                             ])
                             ->columns(1),

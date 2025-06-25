@@ -44,7 +44,7 @@ class EstudiantesResource extends Resource
                 Forms\Components\TextInput::make('apellido_estudiante')
                     ->label('Apellido')
                     ->required()
-                                        ->maxLength(100)
+                    ->maxLength(100)
                     ->validationMessages(
                         [
                             'required' => 'El apellido es requerido',
@@ -118,21 +118,21 @@ class EstudiantesResource extends Resource
                         ]
                     ),
 
-                    Forms\Components\FileUpload::make('foto_estudiante')
+                Forms\Components\FileUpload::make('foto_estudiante')
                     ->label('Foto')
                     ->image()
                     ->directory('estudiantes')
                     ->nullable(),
 
-                    Forms\Components\Textarea::make('observaciones')
-                            ->label('Observaciones')
-                            ->nullable()
-                            ->maxLength(500)
-                            ->validationMessages(
-                                [
-                                    'max' => 'La observacion debe tener menos de 500 caracteres',
-                                ]
-                            ),
+                Forms\Components\Textarea::make('observaciones')
+                    ->label('Observaciones')
+                    ->nullable()
+                    ->maxLength(500)
+                    ->validationMessages(
+                        [
+                            'max' => 'La observacion debe tener menos de 500 caracteres',
+                        ]
+                    ),
 
                 Forms\Components\Repeater::make('domicilios_data')
                     ->label('Domicilios')
@@ -223,7 +223,19 @@ class EstudiantesResource extends Resource
                     ->label('Estado')
                     ->sortable(),
             ])
-            ->filters([])
+            ->filters([
+                Tables\Filters\SelectFilter::make('aniodelacarrera_id')
+                    ->label('Año de la Carrera')
+                    ->options(function () {
+                        return \App\Models\Aniodelacarrera::pluck('nombre', 'id');
+                    }),
+
+                Tables\Filters\SelectFilter::make('estado_id')
+                    ->label('Estado')
+                    ->options(function () {
+                        return \App\Models\Estados::pluck('nombre_estado', 'id');
+                    }),
+            ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

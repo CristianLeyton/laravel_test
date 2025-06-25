@@ -49,22 +49,22 @@
         </div>
 
         <!-- Documento de la Resolución -->
-        
-            <div class="p-4 rounded-lg">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Documento de la Resolución</h3>
-                <div class="flex justify-center">
-                    @if ($resolucion->foto)
+
+        <div class="p-4 rounded-lg">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Documento de la Resolución</h3>
+            <div class="flex justify-center">
+                @if ($resolucion->foto)
                     <a href="{{ asset('storage/' . $resolucion->foto) }}" target="_blank" class="inline-block">
                         <img src="{{ asset('storage/' . $resolucion->foto) }}" alt="Foto de la resolución"
                             class="max-w-full h-auto max-h-96 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
                         <p class="text-center text-sm text-blue-600 mt-2">Haz clic para ver en tamaño completo</p>
                     </a>
-                    @else
+                @else
                     <div class="border rounded-lg w-full p-3 text-center">
                         No se cargó ninguna imagen en esta resolución.
                     </div>
-                    @endif
-                </div>
+                @endif
             </div>
+        </div>
     </div>
 </div>
