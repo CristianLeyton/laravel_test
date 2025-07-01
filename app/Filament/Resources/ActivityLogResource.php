@@ -93,7 +93,7 @@ class ActivityLogResource extends Resource
                 Tables\Columns\TextColumn::make('subject_id')
                     ->label('Estudiante')
                     ->searchable()
-                    ->icon('heroicon-o-user')
+/*                     ->icon('heroicon-o-user') */
                     ->formatStateUsing(function ($state, $record) {
                         $model = $record->subject_type;
                         $id = $record->subject_id;

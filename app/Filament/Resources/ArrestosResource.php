@@ -29,7 +29,7 @@ class ArrestosResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('estudiante_id')
-                    ->label('Estudiante')
+                    ->label('Cadete')
                     ->relationship('estudiante', 'nombre_estudiante', function ($query) {
                         return $query->select('id', 'nombre_estudiante', 'apellido_estudiante')
                             ->orderBy('nombre_estudiante');
@@ -105,7 +105,7 @@ class ArrestosResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('estudiante.nombre_estudiante')
-                    ->label('Estudiante')
+                    ->label('Cadete')
                     ->formatStateUsing(fn($record) => $record->estudiante->nombre_estudiante . ' ' . $record->estudiante->apellido_estudiante)
                     ->searchable()
                     ->sortable(),

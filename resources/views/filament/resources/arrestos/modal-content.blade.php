@@ -1,7 +1,7 @@
 <div class="space-y-4">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Información del Estudiante</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Información del Cadete</h3>
             <div class="space-y-2">
                 <p><strong class="text-gray-500">Nombre:</strong> {{ $arresto->estudiante->nombre_estudiante }}
                     {{ $arresto->estudiante->apellido_estudiante }}</p>

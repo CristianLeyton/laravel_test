@@ -29,7 +29,7 @@ class ResolucionesResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('estudiante_id')
-                    ->label('Estudiante')
+                    ->label('Cadete')
                     ->searchable()
                     ->preload()
                     ->options(function () {
@@ -84,7 +84,7 @@ class ResolucionesResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('estudiante.nombre_estudiante')
-                    ->label('Estudiante')
+                    ->label('Cadete')
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('estudiante.apellido_estudiante')

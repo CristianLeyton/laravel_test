@@ -18,7 +18,7 @@
 
             <!-- Información del Estudiante -->
             <div class="p-4 rounded-lg">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Información del Estudiante</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Información del Cadete</h3>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="text-sm font-medium text-gray-500">Nombre</label>
