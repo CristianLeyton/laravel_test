@@ -200,24 +200,59 @@ class EstudiantesResource extends Resource
                 Tables\Columns\TextColumn::make('nombre_estudiante')
                     ->label('Nombre')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
+                            return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
+                        }
+                        return e($state);
+                    })
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('apellido_estudiante')
                     ->label('Apellido')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
+                            return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
+                        }
+                        return e($state);
+                    })
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('dni_estudiante')
                     ->label('DNI')
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
+                            return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
+                        }
+                        return e($state);
+                    })
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('num_legajo')
                     ->label('Legajo')
-                    ->searchable(),
+                    ->searchable()
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
+                            return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
+                        }
+                        return e($state);
+                    })
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('aniodelacarrera.nombre')
                     ->label('Año de Carrera')
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(function ($state, $record) {
+                        if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
+                            return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
+                        }
+                        return e($state);
+                    })
+                    ->html(),
 
                 Tables\Columns\TextColumn::make('estado.nombre_estado')
                     ->label('Estado')

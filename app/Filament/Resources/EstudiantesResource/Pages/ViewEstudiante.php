@@ -46,15 +46,15 @@ class ViewEstudiante extends ViewRecord
                                 ->label('Número de Legajo'),
                         ]),
                         Grid::make(2)->schema([
-                        ImageEntry::make('foto_estudiante')
-                            ->label('Foto')
-                            ->circular()
-                            ->visible(fn($record) => $record->foto_estudiante)
-                            ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null),
-                        TextEntry::make('observaciones')
-                            ->label('Observaciones')
-                            ->visible(fn($record) => $record->observaciones),
-                            ]),
+                            ImageEntry::make('foto_estudiante')
+                                ->label('Foto')
+                                ->circular()
+                                ->visible(fn($record) => $record->foto_estudiante)
+                                ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null),
+                            TextEntry::make('observaciones')
+                                ->label('Observaciones')
+                                ->visible(fn($record) => $record->observaciones),
+                        ]),
                     ]),
 
                 Section::make('Información Académica')
@@ -74,10 +74,10 @@ class ViewEstudiante extends ViewRecord
                                 Grid::make(2)->schema([
                                     TextEntry::make('tipoDeDomicilio.nombre_tipo_domicilio')
                                         ->label('Tipo'),
-                                        TextEntry::make('descripcion_domicilio')
-                                            ->label('Descripción'),
-                                            TextEntry::make('direccion_estudiante')
-                                                ->label('Dirección'),
+                                    TextEntry::make('descripcion_domicilio')
+                                        ->label('Descripción'),
+                                    TextEntry::make('direccion_estudiante')
+                                        ->label('Dirección'),
                                     TextEntry::make('localidad.nombre_localidad')
                                         ->label('Localidad'),
                                 ]),
@@ -117,6 +117,10 @@ class ViewEstudiante extends ViewRecord
 
                 Section::make('Arrestos')
                     ->schema([
+                        TextEntry::make('total_dias_arresto')
+                            ->label('')
+                            ->default(fn($record) => 'Total de días de arresto: <strong>' . $record->arrestos->sum('dias_de_arresto') . '</strong>')
+                            ->html(),
                         RepeatableEntry::make('arrestos')
                             ->schema([
                                 Grid::make(3)->schema([

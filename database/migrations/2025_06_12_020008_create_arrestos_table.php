@@ -20,8 +20,8 @@ return new class extends Migration
         });
 
         Schema::create('arrestos_faltas', function (Blueprint $table) {
-            $table->foreignId('faltas_id')->constrained('faltas')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignId('arrestos_id')->constrained('arrestos')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('faltas_id')->constrained('faltas')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('arrestos_id')->constrained('arrestos')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }
