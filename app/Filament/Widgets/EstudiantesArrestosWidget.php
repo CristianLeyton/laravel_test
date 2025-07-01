@@ -49,8 +49,8 @@ class EstudiantesArrestosWidget extends BaseWidget
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'Activo' => 'success',
-                        'Inactivo' => 'danger',
-                        'Suspendido' => 'warning',
+                        'Dado de baja' => 'danger',
+                        'Licencia especial' => 'warning',
                         default => 'gray',
                     }),
                 TextColumn::make('arrestos_sum_dias_de_arresto')
@@ -85,6 +85,6 @@ class EstudiantesArrestosWidget extends BaseWidget
 
     protected function getTableHeading(): string
     {
-        return 'Arrestos de estudiantes';
+        return 'Arrestos de cadetes';
     }
 }

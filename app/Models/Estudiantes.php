@@ -6,9 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Estudiantes extends Model
 {
+    use LogsActivity;
+
+    protected static $logAttributes = ['*'];
+    protected static $logOnlyDirty = true;
+    protected static $logName = 'estudiantes';
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "Estudiante fue {$eventName}";
+    }
+
     protected $fillable = [
         'nombre_estudiante',
         'apellido_estudiante',
@@ -49,5 +62,13 @@ class Estudiantes extends Model
     public function arrestos(): HasMany
     {
         return $this->hasMany(Arrestos::class, 'estudiante_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->useLogName('estudiantes');
     }
 }

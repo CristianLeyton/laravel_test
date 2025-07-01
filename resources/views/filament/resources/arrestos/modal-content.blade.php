@@ -33,8 +33,8 @@
             <div class="p-3 rounded-lg">
                 <ul class="space-y-1">
                     @foreach ($arresto->faltas as $falta)
-                        <li class="flex items-center justify-between border-b py-2 px-1">
-                            <span class="font-medium">{{ $falta->nombre_de_falta }}</span>
+                        <li class="flex items-center justify-between border-b py-2 px-1 w-full">
+                            <span class="" >{{ $falta->nombre_de_falta }}</span>
                             <span style="font-size: 0.9em; padding: 2px 8px; border-radius: 4px;">
                                 {{ '(' . $falta->nivelesDeFaltas->nombre_de_nivel . ')' }}
                             </span>

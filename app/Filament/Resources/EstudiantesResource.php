@@ -19,10 +19,10 @@ class EstudiantesResource extends Resource
     protected static ?string $model = Estudiantes::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-identification';
-    protected static ?string $navigationLabel = 'Estudiantes';
+    protected static ?string $navigationLabel = 'Cadetes';
     protected static ?string $navigationGroup = 'Cadetes';
-    protected static ?string $modelLabel = 'Estudiante';
-    protected static ?string $pluralModelLabel = 'Estudiantes';
+    protected static ?string $modelLabel = 'Cadete';
+    protected static ?string $pluralModelLabel = 'Cadetes';
     protected static ?int $navigationSort = 1;
 
 
@@ -246,6 +246,7 @@ class EstudiantesResource extends Resource
                 Tables\Columns\TextColumn::make('aniodelacarrera.nombre')
                     ->label('Año de Carrera')
                     ->sortable()
+                    ->badge()
                     ->formatStateUsing(function ($state, $record) {
                         if ($record->estado && $record->estado->nombre_estado === 'Dado de baja') {
                             return '<span style="text-decoration: line-through;">' . e($state) . '</span>';
@@ -256,6 +257,13 @@ class EstudiantesResource extends Resource
 
                 Tables\Columns\TextColumn::make('estado.nombre_estado')
                     ->label('Estado')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Activo' => 'success',
+                        'Dado de baja' => 'danger',
+                        'Licencia especial' => 'warning',
+                        default => 'gray',
+                    })
                     ->sortable(),
             ])
             ->filters([
@@ -269,7 +277,8 @@ class EstudiantesResource extends Resource
                     ->label('Estado')
                     ->options(function () {
                         return \App\Models\Estados::pluck('nombre_estado', 'id');
-                    }),
+                    })
+                    ,
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

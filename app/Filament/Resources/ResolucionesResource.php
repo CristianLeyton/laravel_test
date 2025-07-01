@@ -94,6 +94,8 @@ class ResolucionesResource extends Resource
                 Tables\Columns\TextColumn::make('numero_de_resolucion')
                     ->label('Número de resolución')
                     ->searchable()
+                    ->badge()
+                    ->color('info')
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('foto')
                     ->label('Foto')

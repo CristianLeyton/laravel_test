@@ -112,6 +112,8 @@ class ArrestosResource extends Resource
 
                 Tables\Columns\TextColumn::make('fecha_de_arresto')
                     ->label('Fecha de Arresto')
+                    ->badge()
+                    ->color('gray')
                     ->date()
                     ->searchable()
                     ->sortable(),
@@ -123,6 +125,13 @@ class ArrestosResource extends Resource
 
                 Tables\Columns\TextColumn::make('faltas.nivelesDeFaltas.nombre_de_nivel')
                     ->label('Faltas')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Leve' => 'info',
+                        'Grave' => 'warning',
+                        'Muy Grave' => 'danger',
+                        default => 'gray',
+                    })
                     ->searchable()
                     ->listWithLineBreaks(),
 

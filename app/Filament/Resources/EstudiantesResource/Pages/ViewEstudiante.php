@@ -63,7 +63,16 @@ class ViewEstudiante extends ViewRecord
                             TextEntry::make('aniodelacarrera.nombre')
                                 ->label('Año de la Carrera'),
                             TextEntry::make('estado.nombre_estado')
-                                ->label('Estado'),
+                                ->label('Estado')
+                                ->extraAttributes([
+                                    'class' => 'uppercase font-bold',
+                                ])
+                                ->color(fn(string $state): string => match ($state) {
+                                    'Activo' => 'success',
+                                    'Dado de baja' => 'danger',
+                                    'Licencia especial' => 'warning',
+                                    default => 'gray',
+                                }),
                         ]),
                     ]),
 
