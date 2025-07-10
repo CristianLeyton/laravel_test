@@ -14,14 +14,13 @@ class NivelesDeFaltaSeeder extends Seeder
     public function run(): void
     {
         //
-                $niveles = [
+        $niveles = [
     ['nombre_de_nivel' => 'Leve'],
-    ['nombre_de_nivel' => 'Media'],
-    ['nombre_de_nivel' => 'Grave']            
-];
-
-                        foreach ($niveles as $nivel) {
-            NivelesDeFaltas::create($niveles);
+    ['nombre_de_nivel' => 'Grave'],
+    ['nombre_de_nivel' => 'Muy Grave'],
+        ];
+        foreach ($niveles as $nivel) {
+            NivelesDeFaltas::create($nivel);
         }
     }
 }

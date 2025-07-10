@@ -19,10 +19,14 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@mail.com',
-           'password' => bcrypt('admin'),
+            'password' => bcrypt('admin'),
         ]);
 
-     /*    $this->call(LocalidadesSeeder::class);*/
-        $this->call(NivelesDeFaltaSeeder::class); 
-}
+        $this->call(LocalidadesSeeder::class);
+        $this->call(NivelesDeFaltaSeeder::class);
+        $this->call(EstadosSeeder::class);
+        $this->call(AniodelacarreraSeeder::class);
+        $this->call(TiposDeDomiciliosSeeder::class);
+        $this->call(FaltasSeeder::class);
+    }
 }

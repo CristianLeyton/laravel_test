@@ -16,4 +16,12 @@ class ManageResoluciones extends ManageRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
+        ];
+    }
 }

@@ -12,12 +12,17 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 class LocalidadesResource extends Resource
 {
     protected static ?string $model = Localidades::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+        protected static ?string $modelLabel = 'localidad';
+        protected static ?string $pluralModelLabel = 'localidades';
+        protected static ?string $navigationGroup = 'Tablas de datos';
+        protected static ?string $navigationIcon = 'heroicon-o-map';
+        //protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -25,7 +30,15 @@ class LocalidadesResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('nombre_localidad')
                     ->required()
-                    ->unique(),
+                    ->maxLength(100)
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages(
+                        [
+                            'unique' => 'El nombre debe ser único',
+                            'max' => 'El nombre debe tener menos de 100 caracteres',
+                            'required' => 'El nombre es requerido',
+                        ]
+                    ),
             ]);
     }
 
@@ -49,11 +62,34 @@ class LocalidadesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()->before(function ($record, $action) {
+                        if ($record->domicilios()->count() > 0) {
+                            Notification::make()
+                            ->title('¡No se puede borrar!')
+                            ->danger()
+                            ->body('El registro "' . $record->nombre_localidad . '" se está usando en ' . $record->domicilios()->count() . ' domicilio(s).')
+                            ->send();
+                            $action->cancel();
+                            return;
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                     ->before(function ($records, $action) {
+                            foreach ($records as $record) {
+                                if ($record->domicilios()->count() > 0) {
+                                    Notification::make()
+                                        ->title('¡No se puede borrar!')
+                                        ->danger()
+                                        ->body('El registro "' . $record->nombre_localidad . '" se está usando en ' . $record->domicilios()->count() . ' domicilio(s).')
+                                        ->send();
+                                    $action->cancel();
+                                    return;
+                                }
+                            }
+                        }),
                 ]),
             ]);
     }

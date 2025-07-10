@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('resoluciones', function (Blueprint $table) {
             $table->id();
-            $table->string("numero_de_resolucion")->unique();
-            $table->string("foto")->nullable();
+            $table->foreignId('estudiante_id')->constrained('estudiantes')->cascadeOnDelete();
+            $table->string('numero_de_resolucion')->unique();
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
