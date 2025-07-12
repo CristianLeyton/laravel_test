@@ -17,9 +17,45 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@mail.com',
-            'password' => bcrypt('admin'),
+            'name' => 'Ordoñez Oriana',
+            'email' => 'ordoñezoriana@mail.com',
+            'password' => bcrypt('ordoñez'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Lopez Brisa',
+            'email' => 'lopezbrisa@mail.com',
+            'password' => bcrypt('lopez'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Barrionuevo Cecilia',
+            'email' => 'barrionuevocecilia@mail.com',
+            'password' => bcrypt('barrionuevo'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Flores Abigail',
+            'email' => 'floresabigail@mail.com',
+            'password' => bcrypt('flores'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Aramayo Antonella',
+            'email' => 'aramayoantonella@mail.com',
+            'password' => bcrypt('aramayo'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Paz Camila',
+            'email' => 'pazcamila@mail.com',
+            'password' => bcrypt('paz'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Emilia Cancinos',
+            'email' => 'emiliacancinos@mail.com',
+            'password' => bcrypt('cancinos'),
         ]);
 
         $this->call(LocalidadesSeeder::class);
