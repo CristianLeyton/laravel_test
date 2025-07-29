@@ -32,6 +32,9 @@ class Estudiantes extends Model
         'foto_estudiante',
         'aniodelacarrera_id',
         'estado_id',
+        'lugar_nacimiento_id',
+        'numero_contacto_particular',
+        'numero_contacto_emergencia',
         'observaciones'
     ];
 
@@ -62,6 +65,11 @@ class Estudiantes extends Model
     public function arrestos(): HasMany
     {
         return $this->hasMany(Arrestos::class, 'estudiante_id');
+    }
+
+    public function lugarNacimiento(): BelongsTo
+    {
+        return $this->belongsTo(Localidades::class, 'lugar_nacimiento_id');
     }
 
     public function getActivitylogOptions(): LogOptions

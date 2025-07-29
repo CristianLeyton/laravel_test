@@ -20,6 +20,12 @@ class ViewEstudiante extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('imprimir_pdf')
+                ->label('Imprimir')
+                ->icon('heroicon-o-printer')
+                ->color('success')
+                ->url(fn($record) => route('estudiante.pdf', $record->id))
+                ->openUrlInNewTab(),
             Actions\EditAction::make(),
         ];
     }
@@ -42,6 +48,12 @@ class ViewEstudiante extends ViewRecord
                             TextEntry::make('fecha_nacimiento')
                                 ->label('Fecha de Nacimiento')
                                 ->date(),
+                            TextEntry::make('lugarNacimiento.nombre_localidad')
+                                ->label('Lugar de Nacimiento'),
+                            TextEntry::make('numero_contacto_particular')
+                                ->label('Número de Contacto Particular'),
+                            TextEntry::make('numero_contacto_emergencia')
+                                ->label('Número de Contacto de Emergencia'),
                             TextEntry::make('num_legajo')
                                 ->label('Número de Legajo'),
                         ]),
