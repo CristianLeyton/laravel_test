@@ -343,6 +343,7 @@
                             <tr>
                                 <th>Fecha de Arresto</th>
                                 <th>Días de Arresto</th>
+                                <th>Autoridad que sanciona</th>
                                 <th>Fecha de Registro</th>
                             </tr>
                         </thead>
@@ -351,6 +352,15 @@
                                 <td>{{ $arresto->fecha_de_arresto ? \Carbon\Carbon::parse($arresto->fecha_de_arresto)->format('d/m/Y') : 'No especificada' }}
                                 </td>
                                 <td>{{ $arresto->dias_de_arresto }}</td>
+                                <td>
+                                    @if ($arresto->autoridad)
+                                        {{ $arresto->autoridad->nombre_autoridad }}@if ($arresto->autoridad->cargo_autoridad)
+                                            ({{ $arresto->autoridad->cargo_autoridad }})
+                                        @endif
+                                    @else
+                                        No especificada
+                                    @endif
+                                </td>
                                 <td>{{ $arresto->created_at->format('d/m/Y H:i:s') }}</td>
                             </tr>
                         </tbody>
@@ -380,6 +390,76 @@
                     @endif
                 </div>
             @endforeach
+        </div>
+    @endif
+
+    @if ($estudiante->carpetasMedicas->count() > 0)
+        <div class="section">
+            <div class="section-title">CARPETAS MÉDICAS</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Días</th>
+                        <th>Autoridad</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($estudiante->carpetasMedicas as $cm)
+                        <tr>
+                            <td>{{ $cm->fecha ? \Carbon\Carbon::parse($cm->fecha)->format('d/m/Y') : 'No especificada' }}
+                            </td>
+                            <td>{{ $cm->dias }}</td>
+                            <td>
+                                @if ($cm->autoridad)
+                                    {{ $cm->autoridad->nombre_autoridad }}@if ($cm->autoridad->cargo_autoridad)
+                                        ({{ $cm->autoridad->cargo_autoridad }})
+                                    @endif
+                                @else
+                                    No especificada
+                                @endif
+                            </td>
+                            <td>{{ $cm->descripcion ?: '—' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
+
+    @if ($estudiante->arts->count() > 0)
+        <div class="section">
+            <div class="section-title">ART</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Días</th>
+                        <th>Autoridad</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($estudiante->arts as $art)
+                        <tr>
+                            <td>{{ $art->fecha ? \Carbon\Carbon::parse($art->fecha)->format('d/m/Y') : 'No especificada' }}
+                            </td>
+                            <td>{{ $art->dias }}</td>
+                            <td>
+                                @if ($art->autoridad)
+                                    {{ $art->autoridad->nombre_autoridad }}@if ($art->autoridad->cargo_autoridad)
+                                        ({{ $art->autoridad->cargo_autoridad }})
+                                    @endif
+                                @else
+                                    No especificada
+                                @endif
+                            </td>
+                            <td>{{ $art->descripcion ?: '—' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     @endif
 

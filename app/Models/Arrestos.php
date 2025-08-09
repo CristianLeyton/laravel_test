@@ -19,6 +19,7 @@ class Arrestos extends Model
     protected static $logAttributes = ['*'];
     protected static $logOnlyDirty = true;
     protected static $logName = 'arrestos';
+    public const LIMITE_DIAS_ARRESTO = 20; //Dias limite de arrestos
 
     public function getDescriptionForEvent(string $eventName): string
     {
@@ -31,7 +32,7 @@ class Arrestos extends Model
             $estudiante = $arresto->estudiante;
             if (!$estudiante) return;
             $diasAcumulados = $estudiante->arrestos()->sum('dias_de_arresto');
-            if ($diasAcumulados >= 20) {
+            if ($diasAcumulados >= self::LIMITE_DIAS_ARRESTO) {
                 // Evitar notificaciones duplicadas para el mismo exceso
                 $yaNotificado = NotificacionEstudiante::where('estudiante_id', $estudiante->id)
                     ->where('mensaje', 'like', '%superó el límite de arrestos%')
@@ -68,6 +69,11 @@ class Arrestos extends Model
     public function estudiante(): BelongsTo
     {
         return $this->belongsTo(Estudiantes::class);
+    }
+
+    public function autoridad(): BelongsTo
+    {
+        return $this->belongsTo(Autoridades::class, 'autoridad_id');
     }
 
     public function getActivitylogOptions(): LogOptions

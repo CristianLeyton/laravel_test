@@ -17,6 +17,7 @@ class EstudiantePdfController extends Controller
             'domicilios.tipoDeDomicilio',
             'domicilios.localidad',
             'resoluciones',
+            'arrestos.autoridad',
             'arrestos.faltas.nivelesDeFaltas'
         ])->findOrFail($id);
 
@@ -27,7 +28,7 @@ class EstudiantePdfController extends Controller
             'estudiante' => $estudiante
         ]);
 
-        $filename = 'perfil_cadete_' . $estudiante->dni_estudiante . '_' . now()->format('Y-m-d_H-i-s') . '.pdf';
+        $filename = 'perfil_cadete_' . $estudiante->nombre_estudiante . '_' . $estudiante->apellido_estudiante . '_' . now()->format('Y-m-d_H-i-s') . '.pdf';
 
         return $pdf->download($filename);
     }

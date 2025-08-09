@@ -69,6 +69,22 @@ class ArrestosResource extends Resource
                         ]
                     ),
 
+                Forms\Components\Select::make('autoridad_id')
+                    ->label('Autoridad que sanciona')
+                    ->relationship('autoridad', 'nombre_autoridad')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('nombre_autoridad')
+                            ->label('Nombre de la autoridad')
+                            ->required(),
+                        Forms\Components\TextInput::make('cargo_autoridad')
+                            ->label('Cargo')
+                            ->maxLength(100),
+                    ])
+                    ->createOptionModalHeading('Crear autoridad')
+                    ->helperText('Seleccione o cree la autoridad que sanciona'),
+
                 Forms\Components\Select::make('faltas')
                     ->label('Faltas')
                     ->relationship('faltas', 'nombre_de_falta')
@@ -122,6 +138,12 @@ class ArrestosResource extends Resource
                     ->label('Días')
                     ->numeric()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('autoridad.nombre_autoridad')
+                    ->label('Autoridad que sanciona')
+                    ->badge()
+                    ->color('gray')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('faltas.nivelesDeFaltas.nombre_de_nivel')
                     ->label('Faltas')

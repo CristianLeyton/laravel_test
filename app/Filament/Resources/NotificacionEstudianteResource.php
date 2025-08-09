@@ -19,7 +19,7 @@ class NotificacionEstudianteResource extends Resource
     protected static ?string $navigationGroup = 'Cadetes';
     protected static ?string $modelLabel = 'Notificación';
     protected static ?string $pluralModelLabel = 'Notificaciones';
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Forms\Form $form): Forms\Form
     {

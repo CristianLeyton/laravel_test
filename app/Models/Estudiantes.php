@@ -67,6 +67,16 @@ class Estudiantes extends Model
         return $this->hasMany(Arrestos::class, 'estudiante_id');
     }
 
+    public function carpetasMedicas(): HasMany
+    {
+        return $this->hasMany(CarpetasMedicas::class, 'estudiante_id');
+    }
+
+    public function arts(): HasMany
+    {
+        return $this->hasMany(Arts::class, 'estudiante_id');
+    }
+
     public function lugarNacimiento(): BelongsTo
     {
         return $this->belongsTo(Localidades::class, 'lugar_nacimiento_id');

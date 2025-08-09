@@ -27,6 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandLogo(fn () => view('filament.admin.logo'))
+            ->brandName('Sistema de Gestión de Cadetes')
             ->colors([
                 'primary' => Color::Sky,
             ])

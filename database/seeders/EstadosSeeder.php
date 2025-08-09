@@ -18,6 +18,7 @@ class EstadosSeeder extends Seeder
             ['nombre_estado' => 'Activo'],
             ['nombre_estado' => 'Dado de baja'],
             ['nombre_estado' => 'Licencia especial'],
+            ['nombre_estado' => 'Egresado'],
         ];
         foreach ($estados as $estado) {
             Estados::create($estado);
