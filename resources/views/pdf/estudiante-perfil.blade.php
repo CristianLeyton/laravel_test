@@ -254,6 +254,10 @@
         <div class="section-title">INFORMACIÓN ACADÉMICA</div>
         <div class="info-grid">
             <div class="info-row">
+                <div class="info-label">Nombre de la Tecnicatura:</div>
+                <div class="info-value">{{ $estudiante->nombre_tecnicatura ?: 'No especificado' }}</div>
+            </div>
+            <div class="info-row">
                 <div class="info-label">Año de la Carrera:</div>
                 <div class="info-value">{{ $estudiante->aniodelacarrera->nombre }}</div>
             </div>
@@ -265,6 +269,14 @@
                         {{ $estudiante->estado->nombre_estado }}
                     </span>
                 </div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Año de Ingreso:</div>
+                <div class="info-value">{{ $estudiante->anio_ingreso ?: 'No especificado' }}</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Año de Egreso:</div>
+                <div class="info-value">{{ $estudiante->anio_egreso ?: 'No especificado' }}</div>
             </div>
         </div>
     </div>

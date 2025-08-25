@@ -147,7 +147,38 @@ class EstudiantesResource extends Resource
                         ]
                     ),
 
-                Forms\Components\Select::make('estado_id')
+                Forms\Components\TextInput::make('anio_ingreso')
+                    ->label('Año de Ingreso')
+                    ->maxLength(4)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'max' => 'El año de ingreso debe tener menos de 4 caracteres',
+                            'numeric' => 'El año de ingreso debe ser numérico',
+                        ]
+                    ),
+
+                Forms\Components\TextInput::make('anio_egreso')
+                    ->label('Año de Egreso')
+                    ->maxLength(4)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'max' => 'El año de egreso debe tener menos de 4 caracteres',
+                            'numeric' => 'El año de egreso debe ser numérico',
+                        ]
+                    ),
+
+                Forms\Components\TextInput::make('nombre_tecnicatura')
+                    ->label('Nombre de la Tecnicatura')
+                    ->maxLength(255)
+                    ->validationMessages(
+                        [
+                            'max' => 'El nombre de la tecnicatura debe tener menos de 255 caracteres',
+                        ]
+                    ),
+
+                    Forms\Components\Select::make('estado_id')
                     ->label('Estado')
                     ->relationship('estado', 'nombre_estado')
                     ->required()
@@ -159,7 +190,7 @@ class EstudiantesResource extends Resource
                             'required' => 'El estado es requerido',
                         ]
                     ),
-
+                    
                 Forms\Components\FileUpload::make('foto_estudiante')
                     ->label('Foto')
                     ->image()

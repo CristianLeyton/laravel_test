@@ -35,6 +35,9 @@ class Estudiantes extends Model
         'lugar_nacimiento_id',
         'numero_contacto_particular',
         'numero_contacto_emergencia',
+        'anio_ingreso',
+        'anio_egreso',
+        'nombre_tecnicatura',
         'observaciones'
     ];
 

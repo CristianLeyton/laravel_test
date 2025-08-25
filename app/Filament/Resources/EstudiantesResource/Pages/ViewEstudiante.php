@@ -72,6 +72,10 @@ class ViewEstudiante extends ViewRecord
                 Section::make('Información Académica')
                     ->schema([
                         Grid::make(2)->schema([
+                            TextEntry::make('nombre_tecnicatura')
+                                ->label('Nombre de la Tecnicatura'),
+                        ]),
+                        Grid::make(2)->schema([
                             TextEntry::make('aniodelacarrera.nombre')
                                 ->label('Año de la Carrera'),
                             TextEntry::make('estado.nombre_estado')
@@ -85,6 +89,12 @@ class ViewEstudiante extends ViewRecord
                                     'Licencia especial' => 'warning',
                                     default => 'gray',
                                 }),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextEntry::make('anio_ingreso')
+                                ->label('Año de Ingreso'),
+                            TextEntry::make('anio_egreso')
+                                ->label('Año de Egreso'),
                         ]),
                     ]),
 
