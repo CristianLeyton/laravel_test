@@ -92,4 +92,36 @@ class Estudiantes extends Model
             ->logOnlyDirty()
             ->useLogName('estudiantes');
     }
+
+    /**
+     * Obtiene los días acumulados de arrestos para el año actual
+     */
+    public function getDiasArrestoAnioActual()
+    {
+        return \App\Models\Arrestos::getDiasAcumuladosPorAnio($this->id);
+    }
+
+    /**
+     * Obtiene el total histórico de días de arrestos
+     */
+    public function getTotalHistoricoArrestos()
+    {
+        return \App\Models\Arrestos::getTotalHistorico($this->id);
+    }
+
+    /**
+     * Verifica si superó el límite de arrestos en el año actual
+     */
+    public function superaLimiteArrestosAnioActual()
+    {
+        return \App\Models\Arrestos::superaLimiteEnAnio($this->id);
+    }
+
+    /**
+     * Obtiene los arrestos de un año específico
+     */
+    public function getArrestosPorAnio($anio)
+    {
+        return $this->arrestos()->whereRaw('strftime("%Y", fecha_de_arresto) = ?', [$anio])->get();
+    }
 }

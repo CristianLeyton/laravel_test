@@ -14,6 +14,7 @@ class EstadisticasArrestosWidget extends BaseWidget
 
     protected function getStats(): array
     {
+        $anioActual = now()->year;
         $totalEstudiantes = Estudiantes::count();
         $estudiantesConArrestos = Estudiantes::whereHas('arrestos')->count();
         $estudiantesActivos = Estudiantes::whereHas('estado', function ($query) {
@@ -30,14 +31,14 @@ class EstadisticasArrestosWidget extends BaseWidget
                 ->url(EstudiantesResource::getUrl('index'))
                 ->color('success'),
 
-                
-                Stat::make('Cadetes con Arrestos', $estudiantesConArrestos)
+
+            Stat::make('Cadetes con Arrestos', $estudiantesConArrestos)
                 ->description('Cadetes con arrestos')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')
                 ->color('warning'),
-                
-                
-                Stat::make('Cadetes Dados de Baja', $estudiantesDadosDeBaja)
+
+
+            Stat::make('Cadetes Dados de Baja', $estudiantesDadosDeBaja)
                 ->description('Cadetes dados de baja')
                 ->descriptionIcon('heroicon-m-x-circle')
                 ->color('danger'),

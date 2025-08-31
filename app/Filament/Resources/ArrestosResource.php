@@ -137,7 +137,8 @@ class ArrestosResource extends Resource
                 Tables\Columns\TextColumn::make('dias_de_arresto')
                     ->label('Días')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+,
 
                 Tables\Columns\TextColumn::make('autoridad.nombre_autoridad')
                     ->label('Autoridad que sanciona')
@@ -170,7 +171,22 @@ class ArrestosResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('anio')
+                    ->label('Año')
+                    ->options(function () {
+                        $anios = \App\Models\Arrestos::selectRaw('strftime("%Y", fecha_de_arresto) as anio')
+                            ->distinct()
+                            ->orderBy('anio', 'desc')
+                            ->pluck('anio', 'anio')
+                            ->toArray();
+                        return $anios;
+                    })
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['values']['anio'])) {
+                            return $query->whereRaw('strftime("%Y", fecha_de_arresto) = ?', [$data['values']['anio']]);
+                        }
+                        return $query;
+                    }),
             ])
             ->actions([
                 Tables\Actions\Action::make('view')

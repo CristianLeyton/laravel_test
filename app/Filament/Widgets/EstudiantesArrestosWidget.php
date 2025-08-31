@@ -25,8 +25,9 @@ class EstudiantesArrestosWidget extends BaseWidget
         return $table
             ->query(
                 Estudiantes::query()
-                    ->withSum('arrestos', 'dias_de_arresto')
                     ->with('estado', 'aniodelacarrera')
+                    ->select('estudiantes.*')
+                    ->selectRaw('(SELECT COALESCE(SUM(arrestos.dias_de_arresto), 0) FROM arrestos WHERE arrestos.estudiante_id = estudiantes.id AND strftime("%Y", arrestos.fecha_de_arresto) = "2025") as dias_arresto_anio_actual')
             )
             ->columns([
                 TextColumn::make('nombre_estudiante')
@@ -53,12 +54,8 @@ class EstudiantesArrestosWidget extends BaseWidget
                         'Licencia especial' => 'warning',
                         default => 'gray',
                     }),
-                TextColumn::make('arrestos_sum_dias_de_arresto')
-                    ->label('Días de Arresto')
-                    /*                     ->summarize([
-                        Sum::make()
-                            ->label('Total')
-                    ])  */
+                TextColumn::make('dias_arresto_anio_actual')
+                    ->label('Arrestos en el año 2025')
                     ->sortable()
                     ->default(0)
                     ->extraAttributes([
@@ -78,7 +75,7 @@ class EstudiantesArrestosWidget extends BaseWidget
                     ->url(fn($record) => EstudiantesResource::getUrl('view', ['record' => $record]))
                     ->openUrlInNewTab(),
             ])
-            ->defaultSort('arrestos_sum_dias_de_arresto', 'desc')
+            ->defaultSort('dias_arresto_anio_actual', 'desc')
             ->striped()
             ->paginated([10, 25, 50]);
     }

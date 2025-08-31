@@ -339,7 +339,11 @@
             <div class="section-title">ARRESTOS</div>
 
             <div class="total-days">
-                <strong>Total de días de arresto: {{ $estudiante->arrestos->sum('dias_de_arresto') }}</strong>
+                <strong>Días de arresto del año {{ now()->year }}:
+                    {{ \App\Models\Arrestos::getDiasAcumuladosPorAnio($estudiante->id) }}</strong><br>
+                <strong>Total histórico de arrestos:
+                    {{ \App\Models\Arrestos::getTotalHistorico($estudiante->id) }}</strong><br>
+                <strong>Límite anual: {{ \App\Models\Arrestos::LIMITE_DIAS_ARRESTO }} días</strong>
             </div>
 
             @foreach ($estudiante->arrestos as $arresto)

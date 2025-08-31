@@ -149,10 +149,23 @@ class ViewEstudiante extends ViewRecord
 
                 Section::make('Arrestos')
                     ->schema([
-                        TextEntry::make('total_dias_arresto')
-                            ->label('')
-                            ->default(fn($record) => 'Total de días de arresto: <strong>' . $record->arrestos->sum('dias_de_arresto') . '</strong>')
-                            ->html(),
+                        Grid::make(2)->schema([
+                            TextEntry::make('dias_arresto_anio_actual')
+                                ->label('Días de arresto del año actual')
+                                ->default(fn($record) => '<strong>' . \App\Models\Arrestos::getDiasAcumuladosPorAnio($record->id) . '</strong> días')
+                                ->html()
+                                ->color('warning'),
+                            TextEntry::make('total_historico_arrestos')
+                                ->label('Total histórico de arrestos')
+                                ->default(fn($record) => '<strong>' . \App\Models\Arrestos::getTotalHistorico($record->id) . '</strong> días')
+                                ->html()
+                                ->color('info'),
+                        ]),
+                        TextEntry::make('limite_arrestos')
+                            ->label('Límite anual')
+                            ->default(fn($record) => 'Límite anual: <strong>' . \App\Models\Arrestos::LIMITE_DIAS_ARRESTO . '</strong> días')
+                            ->html()
+                            ->color('danger'),
                         RepeatableEntry::make('arrestos')
                             ->schema([
                                 Grid::make(4)->schema([
