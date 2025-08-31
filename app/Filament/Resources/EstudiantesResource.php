@@ -170,8 +170,9 @@ class EstudiantesResource extends Resource
                     ),
 
                 Forms\Components\TextInput::make('nombre_tecnicatura')
-                    ->label('Nombre de la Tecnicatura')
+                    ->label('Tecnicatura:')
                     ->maxLength(255)
+                    ->default('Técnico Superior en Seguridad, Tratamiento Penitenciario y Criminología')
                     ->validationMessages(
                         [
                             'max' => 'El nombre de la tecnicatura debe tener menos de 255 caracteres',

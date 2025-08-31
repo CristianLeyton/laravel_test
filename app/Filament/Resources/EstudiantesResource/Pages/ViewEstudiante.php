@@ -74,7 +74,7 @@ class ViewEstudiante extends ViewRecord
                     ->schema([
                         Grid::make(2)->schema([
                             TextEntry::make('nombre_tecnicatura')
-                                ->label('Nombre de la Tecnicatura'),
+                                ->label('Tecnicatura'),
                         ]),
                         Grid::make(2)->schema([
                             TextEntry::make('aniodelacarrera.nombre')
@@ -157,7 +157,7 @@ class ViewEstudiante extends ViewRecord
                                 ->html()
                                 ->color('warning'),
                             TextEntry::make('total_historico_arrestos')
-                                ->label('Total histórico de arrestos')
+                                ->label('Total de arrestos en la carrera')
                                 ->default(fn($record) => '<strong>' . \App\Models\Arrestos::getTotalHistorico($record->id) . '</strong> días')
                                 ->html()
                                 ->color('info'),

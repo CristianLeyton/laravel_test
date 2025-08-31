@@ -254,7 +254,7 @@
         <div class="section-title">INFORMACIÓN ACADÉMICA</div>
         <div class="info-grid">
             <div class="info-row">
-                <div class="info-label">Nombre de la Tecnicatura:</div>
+                <div class="info-label">Tecnicatura:</div>
                 <div class="info-value">{{ $estudiante->nombre_tecnicatura ?: 'No especificado' }}</div>
             </div>
             <div class="info-row">
