@@ -62,7 +62,8 @@ class ViewEstudiante extends ViewRecord
                                 ->label('Foto')
                                 ->circular()
                                 ->visible(fn($record) => $record->foto_estudiante)
-                                ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null),
+                                ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null)
+                                ->openUrlInNewTab(),
                             TextEntry::make('observaciones')
                                 ->label('Observaciones')
                                 ->visible(fn($record) => $record->observaciones),
