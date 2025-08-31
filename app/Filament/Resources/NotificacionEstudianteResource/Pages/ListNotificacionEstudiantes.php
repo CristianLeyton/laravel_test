@@ -26,4 +26,10 @@ class ListNotificacionEstudiantes extends ListRecords
                 }),
         ];
     }
+
+    protected function getTableQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getTableQuery()
+            ->orderBy('created_at', 'desc');
+    }
 }

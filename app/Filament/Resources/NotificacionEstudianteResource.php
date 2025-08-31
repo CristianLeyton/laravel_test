@@ -41,13 +41,21 @@ class NotificacionEstudianteResource extends Resource
                     ->openUrlInNewTab(),
                 Tables\Columns\IconColumn::make('leida')
                     ->label('Leída')
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Fecha')
-                    ->dateTime('d/m/Y H:i'),
+                    ->dateTime('d/m/Y H:i')
+                    ->sortable(),
             ])
-            ->defaultSort('created_at', 'desc')
-            ->filters([])
+            ->filters([
+                Tables\Filters\TernaryFilter::make('leida')
+                    ->label('Estado de lectura')
+                    ->placeholder('Todas las notificaciones')
+                    ->trueLabel('Solo leídas')
+                    ->falseLabel('Solo no leídas')
+                    ->default(false),
+            ])
             ->actions([
                 Tables\Actions\Action::make('ver')
                     ->label('Ver')
@@ -78,5 +86,11 @@ class NotificacionEstudianteResource extends Resource
         return [
             'index' => Pages\ListNotificacionEstudiantes::route('/'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->orderBy('created_at', 'desc');
     }
 }

@@ -29,7 +29,6 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->spa()
-            /* ->spa(hasPrefetching: true) */
             ->brandLogo(fn () => view('filament.admin.logo'))
             ->brandName('SIPCA')
             ->colors([
