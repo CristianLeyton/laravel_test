@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Forms\Actions\Action;
 
 class EstudiantesResource extends Resource
 {
@@ -83,6 +84,47 @@ class EstudiantesResource extends Resource
                 Forms\Components\DatePicker::make('fecha_nacimiento')
                     ->label('Fecha de Nacimiento'),
 
+                Forms\Components\Select::make('lugar_nacimiento_id')
+                    ->label('Lugar de nacimiento')
+                    ->relationship('lugarNacimiento', 'nombre_localidad')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('nombre_localidad')
+                            ->label('Nombre de la localidad')
+                            ->required()
+                            ->maxLength(255)
+                            ->validationMessages([
+                                'required' => 'El nombre de la localidad es requerido',
+                                'max' => 'El nombre debe tener menos de 255 caracteres',
+                            ]),
+                    ])
+                    ->createOptionAction(
+                        fn($action) => $action
+                            ->modalHeading('Crear nueva localidad')
+                            ->modalDescription('Agregar una nueva localidad al sistema')
+                            ->modalSubmitActionLabel('Crear localidad')
+                    )
+                    ->validationMessages([
+                        'required' => 'El lugar de nacimiento es requerido',
+                    ]),
+
+                Forms\Components\TextInput::make('numero_contacto_particular')
+                    ->label('Número de contacto particular')
+                    ->tel()
+                    ->maxLength(20)
+                    ->validationMessages([
+                        'max' => 'El número debe tener menos de 20 caracteres',
+                    ]),
+
+                Forms\Components\TextInput::make('numero_contacto_emergencia')
+                    ->label('Número de contacto de emergencia')
+                    ->tel()
+                    ->maxLength(20)
+                    ->validationMessages([
+                        'max' => 'El número debe tener menos de 20 caracteres',
+                    ]),
+
                 Forms\Components\TextInput::make('num_legajo')
                     ->label('Número de Legajo')
                     ->maxLength(50)
@@ -105,7 +147,39 @@ class EstudiantesResource extends Resource
                         ]
                     ),
 
-                Forms\Components\Select::make('estado_id')
+                Forms\Components\TextInput::make('anio_ingreso')
+                    ->label('Año de Ingreso')
+                    ->maxLength(4)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'max' => 'El año de ingreso debe tener menos de 4 caracteres',
+                            'numeric' => 'El año de ingreso debe ser numérico',
+                        ]
+                    ),
+
+                Forms\Components\TextInput::make('anio_egreso')
+                    ->label('Año de Egreso')
+                    ->maxLength(4)
+                    ->numeric()
+                    ->validationMessages(
+                        [
+                            'max' => 'El año de egreso debe tener menos de 4 caracteres',
+                            'numeric' => 'El año de egreso debe ser numérico',
+                        ]
+                    ),
+
+                Forms\Components\TextInput::make('nombre_tecnicatura')
+                    ->label('Tecnicatura:')
+                    ->maxLength(255)
+                    ->default('Técnico Superior en Seguridad, Tratamiento Penitenciario y Criminología')
+                    ->validationMessages(
+                        [
+                            'max' => 'El nombre de la tecnicatura debe tener menos de 255 caracteres',
+                        ]
+                    ),
+
+                    Forms\Components\Select::make('estado_id')
                     ->label('Estado')
                     ->relationship('estado', 'nombre_estado')
                     ->required()
@@ -117,7 +191,7 @@ class EstudiantesResource extends Resource
                             'required' => 'El estado es requerido',
                         ]
                     ),
-
+                    
                 Forms\Components\FileUpload::make('foto_estudiante')
                     ->label('Foto')
                     ->image()
@@ -277,8 +351,13 @@ class EstudiantesResource extends Resource
                     ->label('Estado')
                     ->options(function () {
                         return \App\Models\Estados::pluck('nombre_estado', 'id');
-                    })
-                    ,
+                    }),
+
+                Tables\Filters\SelectFilter::make('lugar_nacimiento_id')
+                    ->label('Lugar de Nacimiento')
+                    ->options(function () {
+                        return \App\Models\Localidades::pluck('nombre_localidad', 'id');
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

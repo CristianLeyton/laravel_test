@@ -69,6 +69,22 @@ class ArrestosResource extends Resource
                         ]
                     ),
 
+                Forms\Components\Select::make('autoridad_id')
+                    ->label('Autoridad que sanciona')
+                    ->relationship('autoridad', 'nombre_autoridad')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('nombre_autoridad')
+                            ->label('Nombre de la autoridad')
+                            ->required(),
+                        Forms\Components\TextInput::make('cargo_autoridad')
+                            ->label('Cargo')
+                            ->maxLength(100),
+                    ])
+                    ->createOptionModalHeading('Crear autoridad')
+                    ->helperText('Seleccione o cree la autoridad que sanciona'),
+
                 Forms\Components\Select::make('faltas')
                     ->label('Faltas')
                     ->relationship('faltas', 'nombre_de_falta')
@@ -121,7 +137,14 @@ class ArrestosResource extends Resource
                 Tables\Columns\TextColumn::make('dias_de_arresto')
                     ->label('Días')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+,
+
+                Tables\Columns\TextColumn::make('autoridad.nombre_autoridad')
+                    ->label('Autoridad que sanciona')
+                    ->badge()
+                    ->color('gray')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('faltas.nivelesDeFaltas.nombre_de_nivel')
                     ->label('Faltas')
@@ -148,7 +171,22 @@ class ArrestosResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('anio')
+                    ->label('Año')
+                    ->options(function () {
+                        $anios = \App\Models\Arrestos::selectRaw('strftime("%Y", fecha_de_arresto) as anio')
+                            ->distinct()
+                            ->orderBy('anio', 'desc')
+                            ->pluck('anio', 'anio')
+                            ->toArray();
+                        return $anios;
+                    })
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['values']['anio'])) {
+                            return $query->whereRaw('strftime("%Y", fecha_de_arresto) = ?', [$data['values']['anio']]);
+                        }
+                        return $query;
+                    }),
             ])
             ->actions([
                 Tables\Actions\Action::make('view')

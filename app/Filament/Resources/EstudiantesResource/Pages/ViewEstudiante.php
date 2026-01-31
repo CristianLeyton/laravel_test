@@ -20,6 +20,12 @@ class ViewEstudiante extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('imprimir_pdf')
+                ->label('Imprimir')
+                ->icon('heroicon-o-printer')
+                ->color('success')
+                ->url(fn($record) => route('estudiante.pdf', $record->id))
+                ->openUrlInNewTab(),
             Actions\EditAction::make(),
         ];
     }
@@ -42,6 +48,12 @@ class ViewEstudiante extends ViewRecord
                             TextEntry::make('fecha_nacimiento')
                                 ->label('Fecha de Nacimiento')
                                 ->date(),
+                            TextEntry::make('lugarNacimiento.nombre_localidad')
+                                ->label('Lugar de Nacimiento'),
+                            TextEntry::make('numero_contacto_particular')
+                                ->label('Número de Contacto Particular'),
+                            TextEntry::make('numero_contacto_emergencia')
+                                ->label('Número de Contacto de Emergencia'),
                             TextEntry::make('num_legajo')
                                 ->label('Número de Legajo'),
                         ]),
@@ -50,7 +62,8 @@ class ViewEstudiante extends ViewRecord
                                 ->label('Foto')
                                 ->circular()
                                 ->visible(fn($record) => $record->foto_estudiante)
-                                ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null),
+                                ->url(fn($record) => $record->foto_estudiante ? asset('storage/' . $record->foto_estudiante) : null)
+                                ->openUrlInNewTab(),
                             TextEntry::make('observaciones')
                                 ->label('Observaciones')
                                 ->visible(fn($record) => $record->observaciones),
@@ -59,6 +72,10 @@ class ViewEstudiante extends ViewRecord
 
                 Section::make('Información Académica')
                     ->schema([
+                        Grid::make(2)->schema([
+                            TextEntry::make('nombre_tecnicatura')
+                                ->label('Tecnicatura'),
+                        ]),
                         Grid::make(2)->schema([
                             TextEntry::make('aniodelacarrera.nombre')
                                 ->label('Año de la Carrera'),
@@ -73,6 +90,12 @@ class ViewEstudiante extends ViewRecord
                                     'Licencia especial' => 'warning',
                                     default => 'gray',
                                 }),
+                        ]),
+                        Grid::make(2)->schema([
+                            TextEntry::make('anio_ingreso')
+                                ->label('Año de Ingreso'),
+                            TextEntry::make('anio_egreso')
+                                ->label('Año de Egreso'),
                         ]),
                     ]),
 
@@ -93,6 +116,7 @@ class ViewEstudiante extends ViewRecord
                             ])
                             ->columns(1),
                     ])
+                    ->visible(fn($record) => $record->domicilios->count() > 0)
                     ->collapsible(),
 
                 Section::make('Resoluciones')
@@ -121,23 +145,43 @@ class ViewEstudiante extends ViewRecord
                             ])
                             ->columns(1),
                     ])
+                    ->visible(fn($record) => $record->resoluciones->count() > 0)
                     ->collapsible(),
-
 
                 Section::make('Arrestos')
                     ->schema([
-                        TextEntry::make('total_dias_arresto')
-                            ->label('')
-                            ->default(fn($record) => 'Total de días de arresto: <strong>' . $record->arrestos->sum('dias_de_arresto') . '</strong>')
-                            ->html(),
+                        Grid::make(2)->schema([
+                            TextEntry::make('dias_arresto_anio_actual')
+                                ->label('Días de arresto del año actual')
+                                ->default(fn($record) => '<strong>' . \App\Models\Arrestos::getDiasAcumuladosPorAnio($record->id) . '</strong> días')
+                                ->html()
+                                ->color('warning'),
+                            TextEntry::make('total_historico_arrestos')
+                                ->label('Total de arrestos en la carrera')
+                                ->default(fn($record) => '<strong>' . \App\Models\Arrestos::getTotalHistorico($record->id) . '</strong> días')
+                                ->html()
+                                ->color('info'),
+                        ]),
+                        TextEntry::make('limite_arrestos')
+                            ->label('Límite anual')
+                            ->default(fn($record) => 'Límite anual: <strong>' . \App\Models\Arrestos::LIMITE_DIAS_ARRESTO . '</strong> días')
+                            ->html()
+                            ->color('danger'),
                         RepeatableEntry::make('arrestos')
                             ->schema([
-                                Grid::make(3)->schema([
+                                Grid::make(4)->schema([
                                     TextEntry::make('fecha_de_arresto')
                                         ->label('Fecha')
                                         ->date(),
                                     TextEntry::make('dias_de_arresto')
                                         ->label('Días'),
+                                    TextEntry::make('autoridad')
+                                        ->label('Autoridad que sanciona')
+                                        ->formatStateUsing(function ($record) {
+                                            return $record->autoridad
+                                                ? $record->autoridad->nombre_autoridad . ($record->autoridad->cargo_autoridad ? ' (' . $record->autoridad->cargo_autoridad . ')' : '')
+                                                : 'No especificada';
+                                        }),
                                     TextEntry::make('created_at')
                                         ->label('Fecha de Registro')
                                         ->dateTime(),
@@ -157,6 +201,49 @@ class ViewEstudiante extends ViewRecord
                             ])
                             ->columns(1),
                     ])
+                    ->visible(fn($record) => $record->arrestos->count() > 0)
+                    ->collapsible(),
+
+                Section::make('Carpetas médicas')
+                    ->schema([
+                        RepeatableEntry::make('carpetasMedicas')
+                            ->schema([
+                                Grid::make(4)->schema([
+                                    TextEntry::make('fecha')->label('Fecha')->date(),
+                                    TextEntry::make('dias')->label('Días'),
+                                    TextEntry::make('autoridad')->label('Autoridad')
+                                        ->formatStateUsing(function ($record) {
+                                            return $record->autoridad
+                                                ? $record->autoridad->nombre_autoridad . ($record->autoridad->cargo_autoridad ? ' (' . $record->autoridad->cargo_autoridad . ')' : '')
+                                                : 'No especificada';
+                                        }),
+                                    TextEntry::make('descripcion')->label('Descripción')
+                                ]),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->visible(fn($record) => $record->carpetasMedicas->count() > 0)
+                    ->collapsible(),
+
+                Section::make('ART')
+                    ->schema([
+                        RepeatableEntry::make('arts')
+                            ->schema([
+                                Grid::make(4)->schema([
+                                    TextEntry::make('fecha')->label('Fecha')->date(),
+                                    TextEntry::make('dias')->label('Días'),
+                                    TextEntry::make('autoridad')->label('Autoridad')
+                                        ->formatStateUsing(function ($record) {
+                                            return $record->autoridad
+                                                ? $record->autoridad->nombre_autoridad . ($record->autoridad->cargo_autoridad ? ' (' . $record->autoridad->cargo_autoridad . ')' : '')
+                                                : 'No especificada';
+                                        }),
+                                    TextEntry::make('descripcion')->label('Descripción'),
+                                ]),
+                            ])
+                            ->columns(1),
+                    ])
+                    ->visible(fn($record) => $record->arts->count() > 0)
                     ->collapsible(),
             ]);
     }

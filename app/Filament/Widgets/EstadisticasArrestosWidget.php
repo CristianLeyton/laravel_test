@@ -14,6 +14,7 @@ class EstadisticasArrestosWidget extends BaseWidget
 
     protected function getStats(): array
     {
+        $anioActual = now()->year;
         $totalEstudiantes = Estudiantes::count();
         $estudiantesConArrestos = Estudiantes::whereHas('arrestos')->count();
         $estudiantesActivos = Estudiantes::whereHas('estado', function ($query) {
@@ -24,27 +25,30 @@ class EstadisticasArrestosWidget extends BaseWidget
         })->count();
 
         return [
-            Stat::make('Total de Cadetes', $totalEstudiantes)
-                ->description('Registrados en el sistema')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('primary')
+            Stat::make('Cadetes Activos', $estudiantesActivos)
+                ->description('Cadetes activos')
+                ->descriptionIcon('heroicon-m-check-circle')
                 ->url(EstudiantesResource::getUrl('index'))
-                ->openUrlInNewTab(),
+                ->color('success'),
+
 
             Stat::make('Cadetes con Arrestos', $estudiantesConArrestos)
                 ->description('Cadetes con arrestos')
                 ->descriptionIcon('heroicon-m-exclamation-triangle')
                 ->color('warning'),
 
-            Stat::make('Cadetes Activos', $estudiantesActivos)
-                ->description('Cadetes activos')
-                ->descriptionIcon('heroicon-m-check-circle')
-                ->color('success'),
 
             Stat::make('Cadetes Dados de Baja', $estudiantesDadosDeBaja)
                 ->description('Cadetes dados de baja')
                 ->descriptionIcon('heroicon-m-x-circle')
                 ->color('danger'),
+
+                Stat::make('Total de Cadetes', $totalEstudiantes)
+                    ->description('Registrados en el sistema')
+                    ->descriptionIcon('heroicon-m-users')
+                    ->color('primary')
+                    ->url(EstudiantesResource::getUrl('index'))
+                    ->openUrlInNewTab(),
         ];
     }
 }

@@ -20,6 +20,9 @@
                 <p><strong class="text-gray-500">Fecha de Arresto:</strong>
                     {{ \Carbon\Carbon::parse($arresto->fecha_de_arresto)->format('d/m/Y') }}</p>
                 <p><strong class="text-gray-500">Días de Arresto:</strong> {{ $arresto->dias_de_arresto }} día(s)</p>
+                <p><strong class="text-gray-500">Autoridad que sanciona:</strong>
+                    {{ $arresto->autoridad ? $arresto->autoridad->nombre_autoridad . ($arresto->autoridad->cargo_autoridad ? ' (' . $arresto->autoridad->cargo_autoridad . ')' : '') : 'No especificada' }}
+                </p>
                 <p><strong class="text-gray-500">Fecha de Creación:</strong>
                     {{ \Carbon\Carbon::parse($arresto->created_at)->format('d/m/Y H:i') }}</p>
             </div>
@@ -29,12 +32,13 @@
     @if ($arresto->faltas->count() > 0)
         <div>
             <h3 class="text-lg font-semibold text-gray-900 mb-2">Faltas Asociadas
-                <span>({{ $arresto->faltas->count() }})</span></h3>
+                <span>({{ $arresto->faltas->count() }})</span>
+            </h3>
             <div class="p-3 rounded-lg">
                 <ul class="space-y-1">
                     @foreach ($arresto->faltas as $falta)
                         <li class="flex items-center justify-between border-b py-2 px-1 w-full">
-                            <span class="" >{{ $falta->nombre_de_falta }}</span>
+                            <span class="">{{ $falta->nombre_de_falta }}</span>
                             <span style="font-size: 0.9em; padding: 2px 8px; border-radius: 4px;">
                                 {{ '(' . $falta->nivelesDeFaltas->nombre_de_nivel . ')' }}
                             </span>
