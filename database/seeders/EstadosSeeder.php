@@ -15,6 +15,7 @@ class EstadosSeeder extends Seeder
     {
         //
         $estados = [
+            ['nombre_estado' => 'Postulante'],
             ['nombre_estado' => 'Activo'],
             ['nombre_estado' => 'Dado de baja'],
             ['nombre_estado' => 'Licencia especial'],

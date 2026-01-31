@@ -48,6 +48,13 @@ class ListEstudiantes extends ListRecords
                         ->whereHas('aniodelacarrera', fn($q) => $q->where('nombre', 'Cadete de 3º año'))
                         ->whereHas('estado', fn($q) => $q->where('nombre_estado', 'Activo'))
                 ),
+
+            'Postulantes' => Tab::make()
+                ->modifyQueryUsing(
+                    fn(Builder $query) => $query->whereHas('estado', fn($q) => $q->where('nombre_estado', 'Postulante'))
+                    ->whereHas('estado', fn($q) => $q->where('nombre_estado', 'Postulante'))
+                ),
+
             'Bajas' => Tab::make()
                 ->modifyQueryUsing(
                     fn(Builder $query) => $query->whereHas('estado', fn($q) => $q->where('nombre_estado', 'Dado de baja'))
